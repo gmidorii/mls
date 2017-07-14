@@ -4,21 +4,38 @@ import (
 	"fmt"
 	"log"
 	"os"
+
+	"strings"
+
+	"github.com/aybabtme/color/brush"
 )
 
 func main() {
-	dirArg := os.Args[1]
-	fmt.Println(dirArg)
-	dir, err := os.Open(dirArg)
+	var dirStr string
+	if len(os.Args) > 1 {
+		dirStr = os.Args[1]
+	} else {
+		dirStr = "./"
+	}
+
+	dir, err := os.Open(dirStr)
 	if err != nil {
 		log.Fatalf("err: %s\n", err)
 	}
-	fileinfos, err := dir.Readdir(0)
+	fileinfos, err := dir.Readdir(-1)
 	if err != nil {
 		log.Fatalf("err: %s\n", err)
 	}
 
 	for _, v := range fileinfos {
-		fmt.Println(v)
+		if v.IsDir() {
+			fmt.Printf("%s \n", brush.DarkYellow(v.Name()))
+			continue
+		}
+		if strings.Contains(v.Name(), ".go") {
+			fmt.Printf("%s \n", brush.DarkGreen(v.Name()))
+			continue
+		}
+		fmt.Printf("%s \n", v.Name())
 	}
 }
