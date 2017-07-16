@@ -1,6 +1,7 @@
 package main
 
 import (
+	"flag"
 	"fmt"
 	"log"
 	"os"
@@ -11,6 +12,9 @@ import (
 )
 
 func main() {
+	fAll := flag.Bool("a", false, "toggle print all file")
+	flag.Parse()
+
 	var dirStr string
 	if len(os.Args) > 1 {
 		dirStr = os.Args[1]
@@ -28,6 +32,9 @@ func main() {
 	}
 
 	for _, v := range fileinfos {
+		if !*fAll && strings.HasPrefix(v.Name(), ".") {
+			continue
+		}
 		if v.IsDir() {
 			fmt.Printf("%s \n", brush.DarkYellow(v.Name()))
 			continue
