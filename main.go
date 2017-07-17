@@ -16,8 +16,8 @@ func main() {
 	flag.Parse()
 
 	var dirStr string
-	if len(os.Args) > 1 {
-		dirStr = os.Args[1]
+	if size := len(os.Args); size > 1 && !strings.Contains(os.Args[size-1], "-") {
+		dirStr = os.Args[size]
 	} else {
 		dirStr = "./"
 	}
