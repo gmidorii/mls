@@ -31,18 +31,31 @@ func main() {
 		log.Fatalf("err: %s\n", err)
 	}
 
-	for _, v := range fileinfos {
-		if !*fAll && strings.HasPrefix(v.Name(), ".") {
-			continue
+	for i := 0; i < len(fileinfos); i += 3 {
+		var index int
+		if i >= len(fileinfos)-2 {
+			index = len(fileinfos)
+		} else {
+			index = i + 3
 		}
-		if v.IsDir() {
-			fmt.Printf("%s \n", brush.DarkYellow(v.Name()))
-			continue
+		for j := i; j < index; j++ {
+			print(fileinfos[j], *fAll)
 		}
-		if strings.Contains(v.Name(), ".go") {
-			fmt.Printf("%s \n", brush.DarkGreen(v.Name()))
-			continue
-		}
-		fmt.Printf("%s \n", v.Name())
+		fmt.Printf("\n")
 	}
+}
+
+func print(file os.FileInfo, fAll bool) {
+	if !fAll && strings.HasPrefix(file.Name(), ".") {
+		return
+	}
+	if file.IsDir() {
+		fmt.Printf("%s\t", brush.DarkYellow(file.Name()))
+		return
+	}
+	if strings.Contains(file.Name(), ".go") {
+		fmt.Printf("%s\t", brush.DarkGreen(file.Name()))
+		return
+	}
+	fmt.Printf("%s\t", file.Name())
 }
