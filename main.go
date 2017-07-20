@@ -22,7 +22,10 @@ func main() {
 	} else {
 		dirStr = "./"
 	}
+	run(*fAll, *fLine, dirStr)
+}
 
+func run(fAll, fLine bool, dirStr string) {
 	dir, err := os.Open(dirStr)
 	if err != nil {
 		log.Fatalf("err: %s\n", err)
@@ -40,14 +43,14 @@ func main() {
 			index = i + 3
 		}
 		for j := i; j < index; j++ {
-			if !print(fileinfos[j], *fAll) {
+			if !print(fileinfos[j], fAll) {
 				continue
 			}
-			if *fLine {
+			if fLine {
 				fmt.Printf("\n")
 			}
 		}
-		if !*fLine {
+		if !fLine {
 			fmt.Printf("\n")
 		}
 	}
