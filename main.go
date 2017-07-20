@@ -13,6 +13,7 @@ import (
 
 func main() {
 	fAll := flag.Bool("a", false, "toggle print all file")
+	fLine := flag.Bool("l", false, "print one line")
 	flag.Parse()
 
 	var dirStr string
@@ -39,23 +40,31 @@ func main() {
 			index = i + 3
 		}
 		for j := i; j < index; j++ {
-			print(fileinfos[j], *fAll)
+			if !print(fileinfos[j], *fAll) {
+				continue
+			}
+			if *fLine {
+				fmt.Printf("\n")
+			}
 		}
-		fmt.Printf("\n")
+		if !*fLine {
+			fmt.Printf("\n")
+		}
 	}
 }
 
-func print(file os.FileInfo, fAll bool) {
+func print(file os.FileInfo, fAll bool) bool {
 	if !fAll && strings.HasPrefix(file.Name(), ".") {
-		return
+		return false
 	}
 	if file.IsDir() {
 		fmt.Printf("%s\t", brush.DarkYellow(file.Name()))
-		return
+		return true
 	}
 	if strings.Contains(file.Name(), ".go") {
 		fmt.Printf("%s\t", brush.DarkGreen(file.Name()))
-		return
+		return true
 	}
 	fmt.Printf("%s\t", file.Name())
+	return true
 }
