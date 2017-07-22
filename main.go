@@ -12,8 +12,8 @@ import (
 )
 
 func main() {
-	fAll := flag.Bool("a", false, "toggle print all file")
-	fLine := flag.Bool("l", false, "print one line")
+	fAll := flag.Bool("a", false, "print all dir and file")
+	fLine := flag.Bool("l", false, "print by one line")
 	flag.Parse()
 
 	var dirStr string
