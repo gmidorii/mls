@@ -61,13 +61,13 @@ func print(file os.FileInfo, fAll bool) bool {
 		return false
 	}
 	if file.IsDir() {
-		fmt.Printf("%s\t", brush.DarkYellow(file.Name()))
+		fmt.Printf("%s\t%db", brush.DarkYellow(file.Name()), file.Size())
 		return true
 	}
 	if strings.Contains(file.Name(), ".go") {
-		fmt.Printf("%s\t", brush.DarkGreen(file.Name()))
+		fmt.Printf("%s\t%db", brush.DarkGreen(file.Name()), file.Size())
 		return true
 	}
-	fmt.Printf("%s\t", file.Name())
+	fmt.Printf("%s\t%db", file.Name(), file.Size())
 	return true
 }
